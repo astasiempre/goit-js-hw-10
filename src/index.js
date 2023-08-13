@@ -66,7 +66,7 @@ breedSelect.addEventListener("change", () => {
   function createMarkUp(cat) {
         // console.log(cat)
         return cat.map((cat) =>
-          `<li>
+          `<li class="list">
         <img src="${cat.url}" alt="${"Cat Image"}" width="500">
         <h2>${cat.breeds[0].name}</h2>
         <p>${cat.breeds[0].description}</p>
