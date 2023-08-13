@@ -7,20 +7,7 @@ const error = document.querySelector(".error");
 const breedSelect = document.querySelector(".breed-select");
 const catInfo = document.querySelector(".cat-info");
 axios.defaults.headers.common["x-api-key"] = "live_I8eF3DXMlCDC2JNskh1kCmqnO7HT3eRkMJnSE1JIOM4N8JUJx5mz0oilnRyP06mx";
-// function fetchBreeds() {
-// //     return fetch(base_url, {headers: {
-// //       'x-api-key': api_key
-// //     }}).then((response) => {
-// //    console.log(response);
-// //         if (!response.ok) {
-// //             throw new Error();
-// //         }
-// //         return response.json();
-        
-// //  })
-//   return axios.get(base_url)
-  
-// }
+
 
  function fetchBreeds() {
    return axios.get(base_url)
@@ -54,7 +41,7 @@ fetchBreeds()
     function fetchCatByBreed(breedId) {
       return axios.get(`https://api.thecatapi.com/v1/images/search?breed_ids=${breedId}`)
         // .then(response => console.log(response);
-        .then(response => response.data[0]);  
+        .then(response => response.data);  
 }
 
  
@@ -66,32 +53,31 @@ breedSelect.addEventListener("change", () => {
   // catInfo.innerHTML = "";
 
   fetchCatByBreed(selectedBreedId)
-    .then(cat => {
-      catInfo.insertAdjacentHTML("beforeend", createMarkUp(cat));
+    .then(data => {
+      catInfo.innerHTML = createMarkUp(data);
+      loader.hidden = true;
     })
+  .catch(() => {
+      loader.hidden = true;
+      error.hidden = false;
+    });
+  
       
-      function createMarkUp(cat) {
+  function createMarkUp(cat) {
+        // console.log(cat)
         return cat.map((cat) =>
           `<li>
-        <img src="${cat.url}" alt="${"Cat Image"}" width="200">
+        <img src="${cat.url}" alt="${"Cat Image"}" width="500">
         <h2>${cat.breeds[0].name}</h2>
         <p>${cat.breeds[0].description}</p>
-        <p>${cat.breeds[0].temperament}</p>
+        <p><b>Temperament:</b>${cat.breeds[0].temperament}</p>
         </li>`)
           .join("");
       }
   
-      console.log(cat)
-      console.log(cat.breeds[0].name, cat.breeds[0].description, cat.breeds[0].temperament)
-      
-      loader.hidden = true;
-      
-      
-      
-
-     
-
-});
+})
+  
+  
 
 
 
