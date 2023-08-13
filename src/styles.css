@@ -20,7 +20,7 @@ main {
 
 .loader,
 .error {
-    /* display: none; */
+    
     font-weight: bold;
     margin: 10px;
     color: red;
